@@ -1,21 +1,20 @@
-#lista departamentos
-deptos = []
 
+deptos = []
 pisos = {}
 edificio = {}
 
 #cantidad
-l = 10              # ladrillos m2 pared
-c = 2               # kg cemento m2 pared
+l = 20              # ladrillos m2 pared
+c = 15               # kg cemento m2 pared
 L = 20              # largo cm
-A = 20              # ancho cm
+A = 30              # ancho cm
 sup_cer = L * A
 F = 10              # f cerámicos
-Z = 2               # z kg pegamento
-X = 2               # kg cemento m2 piso
+Z = 1               # z kg pegamento
+X = 5               # kg cemento m2 piso
 
-V = 15              # ventanas primer piso
-P = 20              # puertas primer piso
+V = 1              # ventanas primer piso
+P = 3              # puertas primer piso
 
 # costos
 PL = 100            # cada ladrillo
@@ -40,7 +39,7 @@ class depto:
     def __str__(self):
         return f"Piso {self.piso}, con {self.mts}mts de piso y {self.mtspar}mts de pared"
     
-    def materiales(self):
+    def calcular(self):
         #cantidad de materiales
         self.cemento = (self.mtspar * c) + (self.mts * 2)   # kg cemento en total
         self.ladrillo = self.mtspar * L                     # unidades de ladrillo
@@ -56,8 +55,7 @@ class depto:
         if (self.ceramico * sup_cer) > 500:                 # si el dpto tiene mas de 500mt2
             self.pceram = self.pceram * 0.9
             self.ppegame = self.ppegame * 0.9
-    
-    def aberturas(self):
+
         #cantidad
         if self.piso == 1:              # puertas y ventanas piso 1
             self.puertas = P
@@ -75,7 +73,6 @@ class depto:
         self.ppuertas = self.puertas * PPU
         self.pventanas = self.ventanas * PV
     
-    def muebles(self):
         #cantidad
         if self.mts < 50:           # si los mts2 son menores a 50
             self.cama = 1
@@ -92,7 +89,6 @@ class depto:
         self.pmesa = self.mesa * PM
         self.psillas = self.sillas * PS        
 
-    def total(self):
         #total materiales
         self.costo_mat = self.pcemento + self.pceram + self.pladrillo + self.ppegame
         self.cant_mat = self.ladrillo + self.ceramico + self.cemento + self.pegamento
@@ -106,7 +102,6 @@ class depto:
         #total dpto
         self.costo_dpto = self.costo_mat + self.costo_aber + self.costo_mueb
 
-        # print(f"El total es {self.costo_dpto}")
 
 #validar que no se pueda ingresar el mismo
 while True:
@@ -174,10 +169,7 @@ for i in range(len(deptos)):
     #creo el objeto depto
     deptos[i] = depto(deptos[i][0], deptos[i][1], deptos[i][2], deptos[i][3])
     #uso los "metodos" que cree en la clase
-    deptos[i].materiales()
-    deptos[i].aberturas()
-    deptos[i].muebles()
-    deptos[i].total()
+    deptos[i].calcular()
 
     # ----------- piso -----------------
 
@@ -204,8 +196,6 @@ for i in range(len(deptos)):
 
 
     # -------------- edificio ------
-    # costo_piso, cant_mat, costo_aber, costo_mueb
-    
 
     key = deptos[i].edificio
 
@@ -221,5 +211,7 @@ for i in range(len(deptos)):
     else:
         edificio[key] = costos
 
-print(f"Edificio: {edificio}")
-print(f"Piso: {pisos}")
+print("Ladrillos: {:.2f} unidades. {:>20}".format(deptos[i].ladrillo, deptos[i].pladrillo))
+
+# print(f"Edificio: {edificio}")
+# print(f"Piso: {pisos}")
