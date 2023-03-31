@@ -180,25 +180,13 @@ for i in range(len(deptos)):
     costos = [deptos[i].costo_dpto, deptos[i].costo_mat, deptos[i].cant_mat, deptos[i].costo_aber, deptos[i].costo_mueb]    # lista costos con todos los costos del piso
     code = str(deptos[i].edificio) + "." + str(deptos[i].piso)  # clave para identificar en el diccionario
 
-    # si existe el piso le agrega los costos
-    if code in pisos:
-        c = 0
-        aux = []
-        for departamentos in pisos[code]:
-            aux.append(departamentos + costos[c])
-            costo_edi.append(departamentos + costos[c])
-            c += 1
-        pisos[code] = aux
-
     # si no existe crea un par clave-valor nuevo
-    else:
-        pisos[code] = costos
-
+    pisos[code] = costos
 
     # -------------- edificio ------
 
-    key = deptos[i].edificio
 
+    key = deptos[i].edificio
     if key in edificio:
         c = 0
         aux = []
@@ -211,7 +199,7 @@ for i in range(len(deptos)):
     else:
         edificio[key] = costos
 
-print("Ladrillos: {:.2f} unidades. {:>20}".format(deptos[i].ladrillo, deptos[i].pladrillo))
+#print("Ladrillos: {:.2f} unidades. {:>20}".format(deptos[i].ladrillo, deptos[i].pladrillo))
 
-# print(f"Edificio: {edificio}")
-# print(f"Piso: {pisos}")
+print(f"Edificio: {edificio}")
+print(f"Piso: {pisos}")
