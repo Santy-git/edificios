@@ -61,10 +61,11 @@ class depto:
         self.cantidades["pegamento"] = ((self.cantidades["ceramico"] * Z) / F)          # kg pegamento
         
         #costos
-        self.costos["ladrillo"] = self.cantidades["ladrillo"] * PL                 # ladrillo
-        self.costos["cemento"] = self.cantidades["cemento"] * PC                   # cemento
-        self.costos["ceramico"] = self.cantidades["ceramico"] * PCE                   # ceramico
-        self.costos["pegamento"] = self.cantidades["pegamento"] * PP                  # pegamento
+        
+        self.costos["ladrillo"] = float("{:.2f}".format(self.cantidades["ladrillo"] * PL))                # ladrillo
+        self.costos["cemento"] = float("{:.2f}".format(self.cantidades["cemento"] * PC))                  # cemento
+        self.costos["ceramico"] = float("{:.2f}".format(self.cantidades["ceramico"] * PCE))               # ceramico
+        self.costos["pegamento"] = float("{:.2f}".format(self.cantidades["pegamento"] * PP))              # pegamento
 
         if (self.cantidades["ceramico"] * sup_cer) > 500:                 # si el dpto tiene mas de 500mt2
             self.costos["ceramico"] *= 0.9
@@ -87,8 +88,8 @@ class depto:
         self.cantidades["ventanas"]
 
         #costos
-        self.costos["puertas"] = self.cantidades["puertas"] * PPU
-        self.costos["ventanas"] = self.cantidades["ventanas"] * PV
+        self.costos["puertas"] = float("{:.2f}".format(self.cantidades["puertas"] * PPU)) 
+        self.costos["ventanas"] = float("{:.2f}".format(self.cantidades["ventanas"] * PV)) 
     
         #cantidad
         if self.mts < 50:           # si los mts2 son menores a 50
@@ -102,9 +103,10 @@ class depto:
             self.cantidades["sillas"] = 6
 
         #costo
-        self.costos["camas"] = self.cantidades["camas"] * PCA
-        self.costos["mesas"] = self.cantidades["mesas"] * PM
-        self.costos["sillas"] = self.cantidades["sillas"] * PS        
+        
+        self.costos["camas"] = float("{:.2f}".format(self.cantidades["camas"] * PCA))
+        self.costos["mesas"] = float("{:.2f}".format(self.cantidades["mesas"] * PM)) 
+        self.costos["sillas"] = float("{:.2f}".format(self.cantidades["sillas"] * PS))    
 
         #total materiales
         self.costos_dpto["materiales"] = self.costos["cemento"] + self.costos["ceramico"] + self.costos["ladrillo"] + self.costos["pegamento"]
@@ -166,16 +168,28 @@ while True:
             if mts <= 0:
                 print("Solo se admiten valores superiores a 0")
             else:
-                deptos.append([pi, mts, mtspar, ed])
-                x = input("0 - Salir || ABC - Continuar: ")
-                if x == str(0):
-                   ban = True
-                   break
+                auxiliar = [pi, mts, mtspar, ed]
+                xd = False
+                for i in range(len(deptos)):
+                    if auxiliar[0] == deptos[i][0] and auxiliar[1] == deptos[i][1]:
+                        print("El departamento ya ha sido ingresado, reintente") #hacer que pueda cambiarlo
+                        xd = True
 
+                if not xd:
+                    deptos.append([pi, mts, mtspar, ed])
+                    x = input("0 - Salir || 1 - Continuar: ")
+                    if x == str(0):
+                        ban = True
+                        break
+
+                    else:
+                        ban = False
+                        break
+                
                 else:
                     ban = False
                     break
-    
+
     if ban == True:
         break
 
@@ -202,17 +216,18 @@ for i in range(len(deptos)):
 
     key = deptos[i].edificio
     if key in edificio:
-        aux = []
+        aux = {}
         i = 0
         for piso in edificio[key]:
-            aux.append(piso + costo_edi[[x][i]])
+            num = edificio[key][piso] + costo_edi[x[i]]
+            aux[x[i]] = num
             i += 1
         edificio[key] = aux
 
     # si no existe crea un par clave-valor nuevo
     else:
-        edificio[key] = costos
+        edificio[key] = costo_edi
 
-    print(deptos[i].cantidades)
-    print(deptos[i].costos)
-    print(deptos[i].costos_dpto)
+    print(deptos)
+    print(pisos)
+    print(edificio)
