@@ -37,10 +37,9 @@ costos = {"ladrillo":0, "cemento":0, "ceramico":0,"pegamento":0,
 
 costos_dpto = {"materiales":0, "aberturas":0, "muebles":0, "depto":0}
 
-ban = False
 
 class depto:
-    def __init__(self, piso, mts, mtspar, edificio):
+    def __init__(self, edificio, piso, mts, mtspar):
         self.piso = piso
         self.mts = mts
         self.mtspar = mtspar
@@ -109,125 +108,163 @@ class depto:
         self.costos["sillas"] = float("{:.2f}".format(self.cantidades["sillas"] * PS))    
 
         #total materiales
-        self.costos_dpto["materiales"] = self.costos["cemento"] + self.costos["ceramico"] + self.costos["ladrillo"] + self.costos["pegamento"]
+        self.costos_dpto["materiales"] = float("{:.2f}".format(self.costos["cemento"] + self.costos["ceramico"] + self.costos["ladrillo"] + self.costos["pegamento"]))
 
         #total aberturas
-        self.costos_dpto["aberturas"] = self.costos["ventanas"] + self.costos["puertas"]
+        self.costos_dpto["aberturas"] = float("{:.2f}".format(self.costos["ventanas"] + self.costos["puertas"]))
 
         #total muebles
-        self.costos_dpto["muebles"] = self.costos["camas"] + self.costos["mesas"] + self.costos["sillas"]
+        self.costos_dpto["muebles"] = float("{:.2f}".format(self.costos["camas"] + self.costos["mesas"] + self.costos["sillas"]))
 
         #total dpto
-        self.costos_dpto["depto"] = self.costos_dpto["materiales"] + self.costos_dpto["aberturas"] + self.costos_dpto["muebles"]
+        self.costos_dpto["depto"] = float("{:.2f}".format(self.costos_dpto["materiales"] + self.costos_dpto["aberturas"] + self.costos_dpto["muebles"]))
 
-#validar que no se pueda ingresar el mismo
 while True:
-    #edificio
+    print("{:.^20}".format("Bienvendio al gestor de costos"))
+    print("Ingrese la opción que desea realizar: ")
+    print("[0] - Salir del programa")
+    print("[1] - Ingresar departamento")
+    print("[2] - Mostrar departamentos")
+    print("[3] - Mostrar pisos")
+    print("[4] - Mostrar edificios")
+    print("[5] - Mostrar todo")
+
     while True:
+        opcion = input("Ingrese la opción: ")
         try:
-            ed = int(input("Ingrese el edificio: "))
+            int(opcion)
         except ValueError:
-            print("Se admiten solo valores numéricos, reintente")
+            print("Solo se aceptan valores numéricos, reintente")
         else:
-            if ed <= 0:
-                print("Solo se admiten valores superiores a 0")
-            else:
+            opcion = int(opcion)
+            if opcion <= 5 or opcion >= 0:
                 break
-    
-    #piso
-    while True:        
-        try:
-            pi = int(input("Ingrese el piso: "))
-        except ValueError:
-            print("Se admiten solo valores numéricos, reintente")
-        else:
-            if pi <= 0:
-                print("Solo se admiten valores superiores a 0")
             else:
-                break
+                print("Ingrese una opción válida")
 
-    #metros2 de depto
-    while True:
-        try:
-            mts = int(input("Ingrese mts: "))
-        except ValueError:
-            print("Se admiten solo valores numéricos, reintente")
-        else:
-            if mts <= 0:
-                print("Solo se admiten valores superiores a 0")
-            else:
-                break
-    
-    #mts2 pared depto
-    while True:
-        try:
-            mtspar = int(input("Ingrese mts pared: "))
-        except ValueError:
-            print("Se admiten solo valores numéricos, reintente")
-        else:
-            if mts <= 0:
-                print("Solo se admiten valores superiores a 0")
-            else:
-                auxiliar = [pi, mts, mtspar, ed]
-                xd = False
-                for i in range(len(deptos)):
-                    if auxiliar[0] == deptos[i][0] and auxiliar[1] == deptos[i][1]:
-                        print("El departamento ya ha sido ingresado, reintente") #hacer que pueda cambiarlo
-                        xd = True
-
-                if not xd:
-                    deptos.append([pi, mts, mtspar, ed])
-                    x = input("0 - Salir || 1 - Continuar: ")
-                    if x == str(0):
-                        ban = True
-                        break
-
-                    else:
-                        ban = False
-                        break
-                
-                else:
-                    ban = False
-                    break
-
-    if ban == True:
+    if opcion == 0:
+        print("_"*100)
+        print("Ah salido del programa")
         break
 
-#recorro la lista "deptos" para crear los objetos y remplazarlos 
-for i in range(len(deptos)):
-    #creo el objeto depto
-    deptos[i] = depto(deptos[i][0], deptos[i][1], deptos[i][2], deptos[i][3])
-    #uso los "metodos" que cree en la clase
-    deptos[i].calcular()
+    if opcion == 1:
+        print("_"*100)
+        ban = True
+        while ban:
+            #edificio
+            while True:
+                try:
+                    ed = int(input("Ingrese el edificio: "))
+                except ValueError:
+                    print("Se admiten solo valores numéricos, reintente")
+                else:
+                    if ed <= 0:
+                        print("Solo se admiten valores superiores a 0")
+                    else:
+                        break
+            
+            #piso
+            while True:        
+                try:
+                    pi = int(input("Ingrese el piso: "))
+                except ValueError:
+                    print("Se admiten solo valores numéricos, reintente")
+                else:
+                    if pi <= 0:
+                        print("Solo se admiten valores superiores a 0")
+                    else:
+                        break
 
-    # ----------- piso -----------------
+            #metros2 de depto
+            while True:
+                try:
+                    mts = int(input("Ingrese mts: "))
+                except ValueError:
+                    print("Se admiten solo valores numéricos, reintente")
+                else:
+                    if mts <= 0:
+                        print("Solo se admiten valores superiores a 0")
+                    else:
+                        break
+            
+            #mts2 pared depto
+            while True:
+                try:
+                    mtspar = int(input("Ingrese mts pared: "))
+                except ValueError:
+                    print("Se admiten solo valores numéricos, reintente")
+                else:
+                    if mts <= 0:
+                        print("Solo se admiten valores superiores a 0")
+                    else:
+                        auxiliar = [ed, pi]
+                        xd = False
+                        for i in range(len(deptos)):
+                            if auxiliar[0] == deptos[i][0] and auxiliar[1] == deptos[i][1]:
+                                print("El departamento ya ha sido ingresado, reintente") #hacer que pueda cambiarlo
+                                break
 
-    # lo usamos despues en el for de edificio
-    costo_edi = deptos[i].costos_dpto
+                        if not xd:
+                            deptos.append([ed, pi, mts, mtspar])
+                            x = input("0 - Salir || 1 - Continuar: ")
+                            if x == str(0):
+                                ban = False
+                                break
+                            else:
+                                ban = True
+                                break
+        
+        # ------- HAGO LOS CALCULOS ----------
+        #recorro la lista "deptos" para crear los objetos y remplazarlos 
+        for i in range(len(deptos)):
+            #creo el objeto depto
+            deptos[i] = depto(deptos[i][0], deptos[i][1], deptos[i][2], deptos[i][3])
+            #uso los "metodos" que cree en la clase
+            deptos[i].calcular()
 
-    code = str(deptos[i].edificio) + "." + str(deptos[i].piso)  # clave para identificar en el diccionario
+            # ----------- piso -----------------
 
-    # si no existe crea un par clave-valor nuevo
-    pisos[code] = deptos[i].costos_dpto
+            # lo usamos despues en el for de edificio
+            costo_edi = deptos[i].costos_dpto
 
-    # -------------- edificio ------
+            code = str(deptos[i].edificio) + "." + str(deptos[i].piso)  # clave para identificar en el diccionario
+            print(code)
 
-    x = ["materiales", "aberturas", "muebles", "depto"]
+            # si no existe crea un par clave-valor nuevo
+            pisos[code] = deptos[i].costos_dpto
 
-    key = deptos[i].edificio
-    if key in edificio:
-        aux = {}
-        i = 0
-        for piso in edificio[key]:
-            num = edificio[key][piso] + costo_edi[x[i]]
-            aux[x[i]] = num
-            i += 1
-        edificio[key] = aux
+            # -------------- edificio ------
 
-    # si no existe crea un par clave-valor nuevo
-    else:
-        edificio[key] = costo_edi
+            x = ["materiales", "aberturas", "muebles", "depto"]
 
-    print(deptos)
-    print(pisos)
-    print(edificio)
+            key = deptos[i].edificio
+            if key in edificio:
+                aux = {}
+                i = 0
+                for piso in edificio[key]:
+                    num = edificio[key][piso] + costo_edi[x[i]]
+                    aux[x[i]] = num
+                    i += 1
+                edificio[key] = aux
+
+            # si no existe crea un par clave-valor nuevo
+            else:
+                edificio[key] = costo_edi
+        
+    if opcion == 2:
+        print("_"*100)
+        print(deptos)
+
+    if opcion == 3:
+        print("_"*100)
+        print(pisos)
+
+    if opcion == 4:
+        print("_"*100)
+        print(edificio)
+
+    if opcion == 5:
+        print("_"*100)
+        print(deptos)
+        print(pisos)
+        print(edificio)
