@@ -25,7 +25,7 @@ def main(screen):
             dx = 1
         elif x + len("Gracias por usar mi programa!") >= width: # si llega al borde derecho, cambia la dirección del movimiento a la izquierda
             dx = -1
-        time.sleep(0.1) # espera un momento
+        time.sleep(0.06) # espera un momento
         
 deptos = []
 pisos = {}
@@ -176,7 +176,6 @@ while True:
         if __name__ == "__main__":
             curses.wrapper(main)
         
-
     # ingresar depto
     if opcion == 1:
         print("_"*100)
