@@ -46,7 +46,7 @@ class departamento:
         self.costos_dpto = {"materiales":0.0, "aberturas":0.0, "muebles":0.0, "depto":0.0}
     
     def __str__(self):
-        return f"Departamento {self.nro}, piso {self.piso} con {self.mts} mts de piso y {self.mtspar} mts de pared"
+        return f"Edificio: {self.edificio}, Piso: {self.piso}, Departamento: {self.nro} [{self.mts}mts de piso y {self.mtspar}mts de pared]"
     
     def calcular(self):
         #cantidad de materiales
@@ -278,20 +278,24 @@ while True:
     
     # mostrar depto
     if opcion == 2:
-        for i in range(len(deptos)):
-            dto = deptos[i]
-            # materiales, aberturas, muebles, todo
-            print("_"*100)
-            print(dto)
-            print("Materiales: {:>25} \nAberturas: {:>25} \nMuebles: {:>27} \n{} \nTotal: {:>30}".format(dto.costos_dpto["materiales"], dto.costos_dpto["aberturas"], dto.costos_dpto["muebles"], "-"*50, dto.costos_dpto["depto"]))
-
+        if len(deptos) > 0:
+            for i in range(len(deptos)):
+                dto = deptos[i]
+                # materiales, aberturas, muebles, todo
+                print("_"*100)
+                print(dto)
+                print("_"*50)
+                print("Materiales: {:>25,.2f} \nAberturas: {:>25,.2f} \nMuebles: {:>27,.2f} \n{} \nTotal: {:>30,.2f}".format(dto.costos_dpto["materiales"], dto.costos_dpto["aberturas"], dto.costos_dpto["muebles"], "-"*50, dto.costos_dpto["depto"]))
+        else:
+            print("Ingrese un departamento primero")
     # mostar piso
     if opcion == 3:
         if len(pisos) > 0:
             for clave, valor in pisos.items():
                 print("_"*100)
                 print(f"Edificio-Piso: {clave}")
-                print("Materiales: {:>25} \nAberturas: {:>25} \nMuebles: {:>27} \n{} \nTotal: {:>30}".format(valor["materiales"], valor["aberturas"], valor["muebles"], "-"*50, valor["depto"]))
+                print("_"*50)
+                print("Materiales: {:>25,.2f} \nAberturas: {:>25,.2f} \nMuebles: {:>27,.2f} \n{} \nTotal: {:>30,.2f}".format(valor["materiales"], valor["aberturas"], valor["muebles"], "-"*50, valor["depto"]))
         
         else:
             print("Ingrese un departamento primero")
@@ -302,6 +306,7 @@ while True:
             for clave, valor in edificio.items():
                 print("_"*100)
                 print(f"Edificio: {clave}")
-                print("Materiales: {:>25} \nAberturas: {:>25} \nMuebles: {:>27} \n{} \nTotal: {:>30}".format(valor["materiales"], valor["aberturas"], valor["muebles"], "-"*50, valor["depto"]))
+                print("_"*50)
+                print("Materiales: {:>25,.2f} \nAberturas: {:>25,.2f} \nMuebles: {:>27,.2f} \n{} \nTotal: {:>30,.2f}".format(valor["materiales"], valor["aberturas"], valor["muebles"], "-"*50, valor["depto"]))
         else:
             print("Ingrese un departamento primero")
