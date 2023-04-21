@@ -1,4 +1,32 @@
+import curses
+import time
+import signal
 
+def main(screen):
+    curses.curs_set(0) # oculta el cursor
+    height, width = screen.getmaxyx() # obtiene el tamaño de la ventana
+    x, y = 0, height // 2 # posición inicial del texto
+    dx = 1 # dirección del movimiento del texto (1 = derecha, -1 = izquierda)
+
+    def handle_signal(signal, frame):
+        curses.endwin() # detiene la aplicación curses
+        exit(0) # sale del programa
+
+    
+    signal.signal(signal.SIGINT, handle_signal) # maneja la señal SIGINT
+
+    while True:
+        screen.clear() # limpia la pantalla
+        screen.addstr(height-1, 0, "Presione Ctrl + C para salir")
+        screen.addstr(y, x, "Gracias por usar mi programa!") # agrega el texto a la pantalla
+        screen.refresh() # actualiza la pantalla
+        x += dx # mueve el texto en la dirección actual
+        if x <= 0: # si llega al borde izquierdo, cambia la dirección del movimiento a la derecha
+            dx = 1
+        elif x + len("Gracias por usar mi programa!") >= width: # si llega al borde derecho, cambia la dirección del movimiento a la izquierda
+            dx = -1
+        time.sleep(0.1) # espera un momento
+        
 deptos = []
 pisos = {}
 edificio = {}
@@ -145,8 +173,9 @@ while True:
 
     # salir
     if opcion == 0:
-        print("Ah salido del programa")
-        break
+        if __name__ == "__main__":
+            curses.wrapper(main)
+        
 
     # ingresar depto
     if opcion == 1:
